@@ -15,7 +15,7 @@
 """
 Various helper utilities.
 """
-
+from typing import TYPE_CHECKING, Optional
 
 from astroid import bases
 from astroid import context as contextmod
@@ -28,6 +28,9 @@ from astroid.exceptions import (
     MroError,
     _NonDeducibleTypeHierarchy,
 )
+
+if TYPE_CHECKING:
+    from astroid.nodes import NodeNG
 
 
 def _build_proxy_class(cls_name, builtins):
@@ -147,7 +150,7 @@ def object_issubclass(node, class_or_seq, context=None):
     return _object_type_is_subclass(node, class_or_seq, context=context)
 
 
-def safe_infer(node, context=None):
+def safe_infer(node: "NodeNG", context=None) -> Optional["NodeNG"]:
     """Return the inferred value for the given node.
 
     Return None if inference failed or if there is some ambiguity (more than
@@ -156,7 +159,7 @@ def safe_infer(node, context=None):
     try:
         inferit = node.infer(context=context)
         value = next(inferit)
-    except (InferenceError, StopIteration):
+    except (InferenceError, StopIteration, AttributeInferenceError):
         return None
     try:
         next(inferit)
