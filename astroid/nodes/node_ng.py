@@ -311,6 +311,9 @@ class NodeNG:
 
         :returns: The first parent frame node.
         """
+        if self.parent is None:
+            return self
+
         return self.parent.frame()
 
     def scope(self) -> "nodes.LocalsDictNodeNG":
