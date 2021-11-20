@@ -312,7 +312,9 @@ class NodeNG:
         :returns: The first parent frame node.
         """
         if self.parent is None:
-            if isinstance(self, (nodes.Module, nodes.FunctionDef, nodes.ClassDef, nodes.Lambda)):
+            if isinstance(
+                self, (nodes.Module, nodes.FunctionDef, nodes.ClassDef, nodes.Lambda)
+            ):
                 return self
             return None
 
